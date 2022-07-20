@@ -31,14 +31,14 @@ public class LoginFormSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-            .antMatchers("/login", "/index").permitAll()
+            .antMatchers("/login", "/index", "/").permitAll()
             .antMatchers("/**").hasAnyRole("USER", "ADMIN")
             .antMatchers("/admin/**").hasAnyRole("ADMIN")
             .and()
             .formLogin()
             .loginPage("/login")
             .loginProcessingUrl("/process-login")
-            .defaultSuccessUrl("/index", true)
+            .defaultSuccessUrl("/index", false)
             .failureUrl("/login?error=true")
             .permitAll()
             .and()
@@ -54,9 +54,8 @@ public class LoginFormSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
         web.ignoring()
-            .antMatchers("/resources/**", "/static/**");
+            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/fonts/**", "/scss/**");
     }
 
     @Bean
